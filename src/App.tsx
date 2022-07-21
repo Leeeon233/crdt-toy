@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { sumOfSquares, init } from './wasmEntry';
-import { Box, Center,Text,Textarea, Square, Circle, Container, Stack, HStack, VStack  } from '@chakra-ui/react';
+import { Box, Center, Text, Textarea, Container, HStack, VStack  } from '@chakra-ui/react';
 import Client from './client';
 
 function App() {
@@ -12,14 +12,18 @@ function App() {
     })();
   }, []);
 
+  const onSync = (clientId: number|string)=>{
+    return "hhh"
+  };
+
   return (
     <div className="App">
       <Container w='100%' h="100vh">
         <Center>
           <VStack spacing='50'>
             <HStack spacing='200' pt='100'>
-              <Client clientId={1}/>
-              <Client clientId={2}/>
+              <Client clientId={1} onSync={onSync}/>
+              <Client clientId={2} onSync={onSync}/>
             </HStack>
             <Box w='100%'>
               <Center>
