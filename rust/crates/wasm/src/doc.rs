@@ -26,11 +26,12 @@ impl Document{
 
     pub fn add_actions(&mut self, actions: Vec<ActionBuilder>){
         actions.into_iter().for_each(|action| {
-            let action = Action::from_builder(action, self);
+            let pre_id = self.get_pre_id(action.position);
+            let id = self.create_id();
+            let action = Action::from_builder(action, pre_id, id);
             action.execute(self);
             self.lamport_manager.update(action.id().0);
             self.actions.push(action);
-            println!("{}", self.content());
         });
     }
 
@@ -104,7 +105,6 @@ mod test{
         ];
         let mut doc = Document::new(0);
         doc.add_actions(actions);
-        println!("{}", doc.content());
         assert_eq!(doc.content(), "321666");
     }
 }

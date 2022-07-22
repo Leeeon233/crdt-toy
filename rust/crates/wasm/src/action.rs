@@ -21,10 +21,7 @@ impl Action {
         }
     }
 
-    pub fn from_builder(action_builder: ActionBuilder, doc: &mut Document) -> Self{
-        let pre_id = doc.get_pre_id(action_builder.position);
-        // println!("pre_id: {:?} builder {:?}", pre_id, action_builder);
-        let id = doc.create_id();
+    pub fn from_builder(action_builder: ActionBuilder, pre_id:EventId, id:EventId) -> Self{
         match action_builder.action.as_str(){
             "ADD" => Action::Add(AddAction{
                 pre_id,
@@ -106,7 +103,7 @@ impl DocOperation for DeleteAction{
 
 #[derive(Debug)]
 pub struct ActionBuilder{
-    position: isize,
+    pub position: isize,
     action: String,
     char: String,
 }
