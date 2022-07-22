@@ -1,22 +1,9 @@
-mod doc;
-mod action;
-mod manager;
-mod node;
-
 extern crate wasm_bindgen;
 use wasm_bindgen::prelude::*;
+use crdt_toy::{Document, Action, ActionBuilder};
 
-#[wasm_bindgen]
-extern "C" {
-    pub fn alert(s: &str);
-}
 
-#[wasm_bindgen]
-pub fn greet(name: &str) {
-    unsafe {
-        alert(&format!("Hello, {}!", name));
-    }
-}
+
 
 #[wasm_bindgen]
 pub fn sum_of_squares(input: &[i32]) -> i32 {
