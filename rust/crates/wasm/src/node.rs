@@ -69,25 +69,6 @@ impl DocNode {
     pub(crate) fn has_node(&self, id: &EventId) -> bool {
         self.children.contains_key(id)
     }
-
-    pub(crate) fn get_pre_id_by_position(&self, position: isize) -> (Option<&DocNode>, isize){
-        let mut position= position;
-        if position == 0 {
-            return (Some(&self), position);
-        }
-        for key in self.children.keys().sorted() {
-            let node = self.children.get(key).unwrap();
-            if node.text.is_deleted {
-                position = position - 1;
-            }
-            let (new_node, new_p ) = node.get_pre_id_by_position(position);
-            if new_node.is_some() {
-                return (new_node, new_p);
-            }
-            position = new_p;
-        }
-        (None, position)
-    }
 }
 
 impl ToString for DocNode {
@@ -98,7 +79,7 @@ impl ToString for DocNode {
         }else{
             s.push_str("");
         }
-        for key in self.children.keys().sorted() {
+        for key in self.children.keys().sorted().rev() {
             s.push_str(&self.children.get(key).unwrap().to_string());
         }
         s
@@ -145,13 +126,13 @@ mod test{
         let node3 = DocNode::new(Text{
             pre_id: EventId(0, 0),
             id: EventId(1, 1),
-            text: " my".to_string(),
+            text: "my ".to_string(),
             is_deleted: false,
         });
         node.add_node(node2);
         node.add_node(node3);
         println!("{}", node.to_string());
-        assert_eq!(node.to_string(), "hello world my");
+        assert_eq!(node.to_string(), "hello my world");
     }
 
 }

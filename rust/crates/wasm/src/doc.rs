@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use crate::action::{Action, ActionBuilder};
 use crate::manager::LamportManager;
 use crate::node::{ClientId, DocNode, EventId, Text};
@@ -43,12 +44,22 @@ impl Document{
     }
 
     pub(crate) fn get_pre_id(&self, position: isize) -> EventId{
-        let (node, _) = self.root.get_pre_id_by_position(position);
-        match node {
-            Some(node) => node.text.id.clone(),
-            // TODO error? assert cannot None?
-            None => EventId(0, self.client_id),
+        let mut position= position;
+        let mut q = vec![&self.root];
+        while let Some(node) = q.pop() {
+            if position == 0 {
+                return node.text.id.clone();
+            }
+            if node.text.is_deleted{
+                position += 1;
+            }else{
+                position -= 1;
+            }
+            for key in node.children.keys().sorted() {
+                q.push(node.children.get(key).unwrap());
+            }
         }
+        EventId(0, self.client_id)
     }
 
     pub(crate) fn get_node_by_id_mut(&mut self, id: &EventId) -> Option<&mut DocNode>{
@@ -83,7 +94,6 @@ mod test{
             ActionBuilder::new(1, "ADD".to_string(), "2".to_string()),
             ActionBuilder::new(2, "ADD".to_string(), "3".to_string()),
 
-
             ActionBuilder::new(0, "ADD".to_string(), "3".to_string()),
             ActionBuilder::new(1, "ADD".to_string(), "2".to_string()),
             ActionBuilder::new(5, "DELETE".to_string(), "3".to_string()),
@@ -94,6 +104,7 @@ mod test{
         ];
         let mut doc = Document::new(0);
         doc.add_actions(actions);
+        println!("{}", doc.content());
         assert_eq!(doc.content(), "321666");
     }
 }
