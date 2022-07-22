@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/zxch3n/ts-boilerplate#readme",
   "devDependencies": {
+    "@babel/core": "^7.4.5",
     "@types/chance": "^1.1.1",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
@@ -52,6 +53,7 @@
     "@emotion/styled": "^11",
     "framer-motion": "^6",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "diff": "^3.5.0"
   }
 }

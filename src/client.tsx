@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Button, Textarea, Text, Flex } from '@chakra-ui/react';
+import {diff} from "./utils";
 
 interface IClientProps {
   clientId: number|string;
   onSync: (clientId: number|string)=>string;
-};
+}
 
 const Client = ({clientId, onSync}:IClientProps)=> {
   const [isSync, setIsSync] = useState(false);
@@ -19,6 +20,7 @@ const Client = ({clientId, onSync}:IClientProps)=> {
   const onChange = (e:any)=> {
     if(!isSync) {
       const t = e.target.value;
+      console.log(diff(text, t));
       setText(t)
       // TODO call wasm function
     }
