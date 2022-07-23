@@ -45,7 +45,7 @@ function App() {
         case 2: doc = doc2; break;
     }
     actions.forEach((action)=>{doc?.add_action(new Action(action.position, action.action, action.char))})
-    actions.forEach(action=>{ docAll?.add_action(new Action(action.position, action.action, action.char)) });
+    docAll?.merge(doc!);
     setFinalText(docAll?.content() || '');
   }
 
@@ -60,7 +60,7 @@ function App() {
             </HStack>
             <Box w='100%'>
               <Center>
-              <Text fontSize='3xl'>After Sync :</Text>
+              <Text fontSize='3xl'>Final Text :</Text>
               </Center>
               <Textarea value={finalText} h='300' resize='none' isDisabled/>
             </Box>
