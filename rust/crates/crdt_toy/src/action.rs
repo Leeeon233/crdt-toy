@@ -1,7 +1,8 @@
+use std::hash::Hash;
 use crate::doc::Document;
 use crate::node::{DocNode, EventId, Text};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Action {
     Add(AddAction),
     Delete(DeleteAction),
@@ -45,21 +46,21 @@ impl Action {
     }
 }
 
-pub trait DocOperation{
+pub trait DocOperation: Eq + Hash+Clone{
     fn pre_id(&self) -> &EventId;
     fn id(&self) -> &EventId;
     fn value(&self) -> &String;
     fn execute(&self, doc: &mut Document);
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Hash,Clone)]
 pub struct AddAction{
     pre_id: EventId,
     id: EventId,
     value: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Hash,Clone)]
 pub struct DeleteAction{
     pre_id: EventId,
     id: EventId,
@@ -103,13 +104,13 @@ impl DocOperation for DeleteAction{
 
 #[derive(Debug)]
 pub struct ActionBuilder{
-    pub position: isize,
+    pub position: usize,
     action: String,
     char: String,
 }
 
 impl ActionBuilder{
-    pub fn new(position: isize, action: String, char: String) -> Self{
+    pub fn new(position: usize, action: String, char: String) -> Self{
         ActionBuilder{
             position,
             action,

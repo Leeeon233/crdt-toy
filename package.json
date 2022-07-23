@@ -1,8 +1,8 @@
 {
-  "name": "ts-parallel-template",
+  "name": "crdt-toy",
   "sideEffects": false,
   "version": "0.0.1",
-  "description": "",
+  "description": "crdt toy implement by rust/wasm",
   "module": "module/index.js",
   "main": "lib/index.js",
   "types": "module/index.d.ts",
@@ -22,15 +22,15 @@
     "typescript"
   ],
   "license": "ISC",
-  "author": "Zixuan Chen",
+  "author": "leon zhao",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zxch3n/ts-boilerplate.git"
+    "url": "git+https://github.com/Leeeon233/crdt-toy"
   },
   "bugs": {
-    "url": "https://github.com/zxch3n/ts-boilerplate/issues"
+    "url": "https://github.com/Leeeon233/crdt-toy/issues"
   },
-  "homepage": "https://github.com/zxch3n/ts-boilerplate#readme",
+  "homepage": "https://github.com/Leeeon233/crdt-toy",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@types/chance": "^1.1.1",

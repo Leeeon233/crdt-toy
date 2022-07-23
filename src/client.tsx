@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Button, Textarea, Text, Flex } from '@chakra-ui/react';
 import {diff} from "./utils";
+import {Action} from "../wasm_dist";
 
 interface IClientProps {
-  clientId: number|string;
-  onSync: (clientId: number|string)=>string;
+  clientId: number;
+  onSync: (clientId: number)=>string;
+  onActions: (clientId: number, actions: Action[])=>void;
 }
 
-const Client = ({clientId, onSync}:IClientProps)=> {
+const Client = ({clientId, onSync, onActions}:IClientProps)=> {
   const [isSync, setIsSync] = useState(false);
   const [text, setText] = useState('');
 
@@ -17,12 +19,12 @@ const Client = ({clientId, onSync}:IClientProps)=> {
     setIsSync(false);
   }
 
-  const onChange = (e:any)=> {
+  const onChange = async (e:any)=> {
     if(!isSync) {
       const t = e.target.value;
-      console.log(diff(text, t));
+      const actions = diff(text, t);
+      onActions(clientId, actions);
       setText(t)
-      // TODO call wasm function
     }
   }
 
